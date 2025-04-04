@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        h2, h3 {
+            color: #f0f0f0;
+        }
+        label, select, input {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+        }
+        input[type="time"], input[type="text"] {
+            width: 100%;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .timer {
+            font-size: 2em;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .timer-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Study Planner</h1>
+</header>
+
+<div class="container">
+    <h2>Set Study Schedule</h2>
+
+    <!-- Subject Selection and Timer -->
+    <div class="timer-container">
+        <label for="subject1">Select Subject 1:</label>
+        <select id="subject1">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Math">Math</option>
+            <option value="Biology">Biology</option>
+            <option value="English">English</option>
+        </select>
+        <br>
+
+        <label for="chapter1">Enter Chapter for Subject 1:</label>
+        <input type="text" id="chapter1" placeholder="Enter Chapter Name">
+        <br>
+
+        <label for="time1">Set Time to Complete (in minutes):</label>
+        <input type="time" id="time1">
+        <br>
+
+        <button onclick="startTimer(1)">Start Timer for Subject 1</button>
+
+        <div class="timer" id="timer1"></div>
+    </div>
+
+    <div class="timer-container">
+        <label for="subject2">Select Subject 2:</label>
+        <select id="subject2">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Math">Math</option>
+            <option value="Biology">Biology</option>
+            <option value="English">English</option>
+        </select>
+        <br>
+
+        <label for="chapter2">Enter Chapter for Subject 2:</label>
+        <input type="text" id="chapter2" placeholder="Enter Chapter Name">
+        <br>
+
+        <label for="time2">Set Time to Complete (in minutes):</label>
+        <input type="time" id="time2">
+        <br>
+
+        <button onclick="startTimer(2)">Start Timer for Subject 2</button>
+
+        <div class="timer" id="timer2"></div>
+    </div>
+
+    <div class="timer-container">
+        <label for="subject3">Select Subject 3:</label>
+        <select id="subject3">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Math">Math</option>
+            <option value="Biology">Biology</option>
+            <option value="English">English</option>
+        </select>
+        <br>
+
+        <label for="chapter3">Enter Chapter for Subject 3:</label>
+        <input type="text" id="chapter3" placeholder="Enter Chapter Name">
+        <br>
+
+        <label for="time3">Set Time to Complete (in minutes):</label>
+        <input type="time" id="time3">
+        <br>
+
+        <button onclick="startTimer(3)">Start Timer for Subject 3</button>
+
+        <div class="timer" id="timer3"></div>
+    </div>
+
+    <div class="timer-container">
+        <label for="subject4">Select Subject 4:</label>
+        <select id="subject4">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Math">Math</option>
+            <option value="Biology">Biology</option>
+            <option value="English">English</option>
+        </select>
+        <br>
+
+        <label for="chapter4">Enter Chapter for Subject 4:</label>
+        <input type="text" id="chapter4" placeholder="Enter Chapter Name">
+        <br>
+
+        <label for="time4">Set Time to Complete (in minutes):</label>
+        <input type="time" id="time4">
+        <br>
+
+        <button onclick="startTimer(4)">Start Timer for Subject 4</button>
+
+        <div class="timer" id="timer4"></div>
+    </div>
+
+    <div class="timer-container">
+        <label for="subject5">Select Subject 5:</label>
+        <select id="subject5">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Math">Math</option>
+            <option value="Biology">Biology</option>
+            <option value="English">English</option>
+        </select>
+        <br>
+
+        <label for="chapter5">Enter Chapter for Subject 5:</label>
+        <input type="text" id="chapter5" placeholder="Enter Chapter Name">
+        <br>
+
+        <label for="time5">Set Time to Complete (in minutes):</label>
+        <input type="time" id="time5">
+        <br>
+
+        <button onclick="startTimer(5)">Start Timer for Subject 5</button>
+
+        <div class="timer" id="timer5"></div>
+    </div>
+
+</div>
+
+<script>
+    let countdowns = [];
+
+    function startTimer(subjectNum) {
+        const subject = document.getElementById(`subject${subjectNum}`).value;
+        const chapter = document.getElementById(`chapter${subjectNum}`).value;
+        const time = document.getElementById(`time${subjectNum}`).value;
+
+        if(subject && chapter && time) {
+            const [hours, minutes] = time.split(':').map(num => parseInt(num, 10));
+            const totalTime = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+            const endTime = new Date().getTime() + totalTime;
+
+            countdowns[subjectNum] = setInterval(function() {
+                const currentTime = new Date().getTime();
+                const remainingTime = endTime - currentTime;
+
+                if (remainingTime <= 0) {
+                    clearInterval(countdowns[subjectNum]);
+                    document.getElementById(`timer${subjectNum}`).innerText = `Time's up for ${subject} - ${chapter}!`;
+                } else {
+                    const hoursLeft = Math.floor(remainingTime / (1000 * 60 * 60));
+                    const minutesLeft = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    const secondsLeft = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                    document.getElementById(`timer${subjectNum}`).innerText = `Time remaining for ${subject} - ${chapter}: ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+                }
+            }, 1000);
+        } else {
+            alert("Please fill out all fields for subject " + subjectNum);
+        }
+    }
+</script>
+
+</body>
+</html>
